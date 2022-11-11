@@ -1,30 +1,24 @@
 # -*- coding: utf-8 -*-
 
 """
- This script is used to calculate the 2D potenial landscape.
+ This script is used to calculate the probability potential landscape.
  @author: Pan M. CHU
  @Email: pan_chu@outlook.com
 """
 
 # Built-in/Generic Imports
 import os
-import sys
 # […]
 
 # Libs
-import pandas as pd
 import numpy as np  # Or any other
-# […]
 import matplotlib.pyplot as plt
-from pde_solver import fokker_planck_pde_solver, generate_adi_A
-from toggle_mini.pde_solver_cpy import crate_init_p, evolve_ADI
-# from toggle_mini.pde_solver_cpy import fokker_planck_pde_solver
-
+from pde_solver import generate_adi_A  # generate the Matrices for ADI
+from toggle_mini.pde_solver_cpy import crate_init_p, evolve_ADI  # evaluating the PDEs via C compiled codes.
 from joblib import Parallel, delayed, dump, load
-# Own modules
 from toggle_dynamic import ToggleBasic, assign_vars
 from tqdm import tqdm
-from typing import Optional, Callable
+from typing import Optional
 import datetime
 from multiprocessing import Process
 

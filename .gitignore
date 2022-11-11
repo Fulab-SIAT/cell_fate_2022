@@ -1,2 +1,6 @@
 .git
 .idea
+.history
+*.png
+*.pyc
+*.so

@@ -5,24 +5,24 @@
 
 import pandas as pd
 import numpy as np  # Or any other
-from toggle_dynamic import ToggleBasic, steady_state, cal_laci_poetntial, assign_vars, bistability_titrate_k
-from joblib import Parallel, delayed, dump, load
+from toggle_dynamic import ToggleBasic, assign_vars
+from joblib import Parallel, delayed 
 from tqdm import tqdm
-from matplotlib import cm
+
 import matplotlib.pyplot as plt
-import matplotlib.colors as colors
-from matplotlib.colors import ListedColormap, LinearSegmentedColormap
-from sub_model.emperical_gene_expression_rate import alpha_sst, mRNA_level
-from sub_model.gene_expression_rate import protein_trans_rate, phi_ribosome, frc_act_ribo, ribo_elongation_klumpp, \
-    ribo_klumpp
+# from matplotlib import cm
+# import matplotlib.colors as colors
+# from matplotlib.colors import ListedColormap, LinearSegmentedColormap
+
+from sub_model.emperical_gene_expression_rate import mRNA_level
+from sub_model.gene_expression_rate import protein_trans_rate, phi_ribosome, frc_act_ribo
 import sciplot as splt
-from typing import List
 from phase_plot_dyn_toggle import bistability_titrate_al_ricip_k, get_toggle_tilde_k, white_grey_bar
+
 splt.whitegrid()
 
 
 #%%
-
 summary_data = pd.read_excel(r'./sub_model/Experimental_data_summary_for_steday_state.xlsx',
                              sheet_name='Summary Data')
 growth_rate = summary_data['Growth_rate']
