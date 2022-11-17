@@ -14,7 +14,7 @@ import os
 import numpy as np  # Or any other
 import matplotlib.pyplot as plt
 from pde_solver import generate_adi_A  # generate the Matrices for ADI
-from toggle_mini.pde_solver_cpy import crate_init_p, evolve_ADI  # evaluating the PDEs via C compiled codes.
+from pde_solver_cpy import crate_init_p, evolve_ADI  # evaluating the PDEs via C compiled codes.
 from joblib import Parallel, delayed, dump, load
 from toggle_dynamic import ToggleBasic, assign_vars
 from tqdm import tqdm
