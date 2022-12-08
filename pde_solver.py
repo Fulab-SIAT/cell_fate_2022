@@ -7,12 +7,10 @@
 """
 
 # Built-in/Generic Imports
-import os
-import sys
-# […]
+
 
 # Libs
-import pandas as pd
+
 import numpy as np  # Or any other
 from scipy import sparse
 from scipy.sparse.linalg import spsolve
@@ -22,9 +20,6 @@ import matplotlib.pyplot as plt
 from typing import Callable
 from joblib import Parallel, delayed
 import cython
-
-
-# Own modules
 
 
 def multi_var_guassian(x: np.ndarray, cov: np.ndarray, mean: np.ndarray) -> cython.double:
@@ -57,7 +52,7 @@ def generate_adi_A(cef_A: Callable, cef_B: Callable, cef_C: Callable, cef_D_1: C
     Generating Matrices for ADI, solving FP equation.
 
     Parameters
-    -----------
+    ----------- vb 
     cef_A: Callable
         coefficient A, \babla(f(X))
     cef_B: Callable
@@ -92,8 +87,8 @@ def generate_adi_A(cef_A: Callable, cef_B: Callable, cef_C: Callable, cef_D_1: C
     index: cython.Py_tss_t
     x1_i: cython.double
     x2_i: cython.double
-
     x1_len, x2_len = len(x1), len(x2)
+
     # x1_v, x2_v = np.meshgrid(x1, x2, indexing='ij')
 
     A_1 = [None] * x2_len
@@ -626,95 +621,3 @@ if __name__ == '__main__':
     ax4.set_ylabel('$<\Delta X^{2}> $')
     fig4.show()
 
-    # %%
-    #
-    #
-    # for index, x2_i in enumerate(x2):
-    #     poss = [[x1_i, x2_i] for x1_i in x1]
-    #     A_main_1 = np.array([1. + 2 * q1 * cef_D_1([x1_i, x2_i]) for x1_i in x1])
-    #     A_lower_1 = np.array([- p1 * cef_B([x1_i, x2_i]) - q1 * cef_D_1([x1_i, x2_i]) for x1_i in x1])[1:]
-    #     A_upper_1 = np.array([p1 * cef_B([x1_i, x2_i]) - q1 * cef_D_1([x1_i, x2_i]) for x1_i in x1])
-    #     A_1_boundary = np.array([-2 * q1 * cef_D_1([x1_i, x2_i]) for x1_i in x1])
-    #     A_upper_1[0] = A_1_boundary[0]
-    #     A_lower_1[-1] = A_1_boundary[-1]
-    #     A_1[index] = sparse.diags([A_lower_1, A_main_1, A_upper_1], [-1, 0, 1], format='csr')
-    #
-    #     b_main_1 = np.array([1. - 2 * q2 * cef_D_2(pos) - cef_A(pos) * t_step / 2 for pos in poss])
-    #     b_lower_1 = np.array([p2 * cef_C(pos) + q2 * cef_D_2(pos) for pos in poss])[1:]
-    #     b_upper_1 = np.array([- p2 * cef_C(pos) + q2 * cef_D_2(pos) for pos in poss])[:-1]
-    #     b_1_boundary = np.array([2 * q2 * cef_D_2(pos) for pos in poss])
-    #     b_lower_1[-1] = b_1_boundary[-1]
-    #     b_upper_1[0] = b_1_boundary[0]
-    #     b_1[index] = sparse.diags([b_lower_1, b_main_1, b_upper_1], [-1, 0, 1], format='csr')
-    #
-    # for index, x1_i in enumerate(x1):
-    #     poss = [[x1_i, x2_i] for x2_i in x2]
-    #     A_upper_2 = np.array([-p2 * cef_C(pos) + q2 * cef_D_2(pos) for pos in poss])[:-1]
-    #     A_main_2 = np.array([1 + 2 * q2 * cef_D_2(pos) for pos in poss])
-    #     A_lower_2 = np.array([p2 * cef_C(pos) - q2 * cef_D_2(pos) for pos in poss])[1:]
-    #     A_boundary_2 = np.array([-2 * q2 * cef_D_2(pos) for pos in poss])
-    #     A_lower_2[-1] = A_boundary_2[-1]
-    #     A_upper_2[0] = A_boundary_2[0]
-    #     A_2[index] = sparse.diags([A_lower_2, A_main_2, A_upper_2], [-1, 0, 1], format='csr')
-    #     b_lower_2 = np.array([q1 * cef_D_1(pos) + p1 * cef_B(pos) for pos in poss])[1:]
-    #     b_main_2 = np.array([1 + 2 * q2 * cef_D_2(pos) - cef_A(pos) * t_step / 2 for pos in poss])
-    #     b_upper_2 = np.array([q1 * cef_D_1(pos) - p1 * cef_B(pos) for pos in poss])[:-1]
-    #     b_2_boundary = np.array([2 * q2 * cef_D_2(pos) for pos in poss])
-    #     b_upper_2[0] = b_2_boundary[0]
-    #     b_lower_2[-1] = b_2_boundary[-1]
-    #     b_2[index] = sparse.diags([b_lower_2, b_main_2, b_upper_2], [-1, 0, 1], format='csr')
-
-    # %%
-    # for t in tqdm(range(len(p_t) - 1)):
-    #     for x_index, x2_i in enumerate(x2):
-    #         u_1 = b_1[x_index].dot(p_t[t, :, x_index].T)
-    #         p_t[t + 1, :, x_index] = spsolve(A_1[x_index], u_1)
-    #
-    #     for x_index, x1_i in enumerate(x1):
-    #         u_2 = b_2[x_index].dot(p_t[t, ...].T)
-    #
-    #         u_1 = b_1.dot(p_t[i, ...].T)
-    #         p_half = spsolve(A_1, u_1)
-    #         u_2 = b_2.dot(p_half)
-    #         p_n1 = spsolve(A_2, u_2).T
-    #         p_t[i + 1, ...] = p_n1
-
-    # %%
-    # A_main_1 = np.ones(len(x1)) + 2 * q1 * D_1
-    # A_lower_1 = (- p1 * B - q1 * D_1)[1:]
-    # A_upper_1 = (p1 * B - q1 * D_1)[0:-1]
-    #
-    # A_upper_1[0] = - 2 * q1 * D_1[0]
-    # A_lower_1[-1] = - 2 * q1 * D_1[-1]
-    # A_1 = sparse.diags([A_lower_1, A_main_1, A_upper_1], [-1, 0, 1], format='csr')
-    #
-    # b_lower_1 = (p2 * C + q2 * D_2)[1:]
-    # b_lower_1[-1] = 2 * q2 * D_2[-1]
-    # b_main_1 = 1. - 2 * q2 * D_2 - A * t_step / 2
-    # b_upper_1 = (- p2 * C + q2 * D_2)[0:-1]
-    # b_upper_1[0] = 2 * q2 * D_2[0]
-    # b_1 = sparse.diags([b_lower_1, b_main_1, b_upper_1], [-1, 0, 1], format='csr')
-    #
-    # A_upper_2 = (- p2 * C + q2 * D_2)[0:-1]
-    # A_upper_2[0] = (- 2 * q2 * D_2)[0]
-    # A_main_2 = 1 + 2 * q2 * D_2
-    # A_lower_2 = (p2 * C - q2 * D_2)[1:]
-    # A_lower_2[-1] = (- 2 * q2 * D_2)[-1]
-    # A_2 = sparse.diags([A_lower_2, A_main_2, A_upper_2], [-1, 0, 1], format='csr')
-    #
-    # b_lower_2 = (q1 * D_1 + p1 * B)[1:]
-    # b_lower_2[-1] = (2 * q2 * D_2)[-1]
-    # b_main_2 = 1. + 2 * q2 * D_2 - A * t_step / 2
-    # b_upper_2 = (q1 * D_1 - p1 * B)[:-1]
-    # b_upper_2[0] = (2 * q2 * D_2)[0]
-    # b_2 = sparse.diags([b_lower_2, b_main_2, b_upper_2], [-1, 0, 1], format='csr')
-    #
-    # # %%
-    # for i in tqdm(range(len(p_t) - 1)):
-    #     u_1 = b_1.dot(p_t[i, ...].T)
-    #     p_half = spsolve(A_1, u_1)
-    #     u_2 = b_2.dot(p_half)
-    #     p_n1 = spsolve(A_2, u_2).T
-    #     p_t[i + 1, ...] = p_n1
-
-    # %%

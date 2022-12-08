@@ -32,7 +32,7 @@ Jingwen Zhu, Pan Chu, Xiongfei Fu  20220923
 
 #### Deterministic model for the mutual repressive system
 
-The model of the Toggle was defined in `toggle_dynamic.py`. In the python class `ToggleBasic`, we defined its parameters (properties, attributions) and methods that helps calculating the system's steady-states and evaluating the ODEs.
+The model of the Toggle was defined in `toggle_dynamic.py`. In python class `ToggleBasic`, we defined its parameters (properties, attributions) and methods that helps to calculate the system's steady-states and evaluating ODEs.
 
 #### Model for gene expression under fluctuating conditions
 
