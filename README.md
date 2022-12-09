@@ -2,6 +2,7 @@
 
 Jingwen Zhu, Pan Chu, Xiongfei Fu  20220923
 
+DOI: https://doi.org/10.1101/2022.09.13.507864
 -----------------------------
 
 
@@ -40,7 +41,7 @@ Codes for simulating the gene expression dynamics of constitutive expressed gene
 
 #### A deterministic quasi-potential landscape
 
-The function used for calculating the quasi-potential landscape is defined in `toggle_dynamic.py`, and the sample codes are provided in `Toggle_quasilandscape.py`. 
+The function used for calculating the quasi-potential landscape is defined in `toggle_dynamic.py`. 
 
 #### A probability potential landscape
 
